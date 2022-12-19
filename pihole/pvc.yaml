@@ -4,7 +4,7 @@ metadata:
   name: pihole-config
   namespace: pihole
 spec:
-  storageClassName: nfs-client
+  storageClassName: local-path
   accessModes:
   - ReadOnlyMany
   resources:
@@ -17,7 +17,7 @@ metadata:
   name: dnsmasq
   namespace: pihole
 spec:
-  storageClassName: nfs-client
+  storageClassName: local-path
   accessModes:
   - ReadOnlyMany
   resources:

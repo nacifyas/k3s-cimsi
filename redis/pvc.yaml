@@ -6,7 +6,7 @@ metadata:
   labels:
     app: redis-nextcloud
 spec:
-  storageClassName: nfs-client
+  storageClassName: local-path
   accessModes:
   - ReadOnlyMany
   resources:
@@ -21,7 +21,7 @@ metadata:
   labels:
     app: redis-stack
 spec:
-  storageClassName: nfs-client
+  storageClassName: local-path
   accessModes:
   - ReadOnlyMany
   resources:

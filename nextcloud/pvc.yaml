@@ -4,7 +4,7 @@ metadata:
   name: nextcloud-data
   namespace: nextcloud
 spec:
-  storageClassName: nfs-client
+  storageClassName: local-path
   accessModes:
     - ReadOnlyMany
   resources:
