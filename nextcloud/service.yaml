@@ -1,0 +1,29 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: nextcloud-frontend
+  namespace: nextcloud   
+spec: 
+  type: LoadBalancer
+  selector:
+    app: nginx
+  ports:
+    - name: web
+      protocol: TCP
+      port: 88
+      targetPort: web
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nextcloud
+  namespace: nextcloud   
+spec: 
+  type: ClusterIP
+  selector:
+    app: nextcloud
+  ports:
+    - name: fpm
+      protocol: TCP
+      port: 9000
+      targetPort: fpm

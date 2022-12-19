@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wireguard
+  namespace: vpn
+  annotations:
+    cert-manager.io/cluster-issuer: acme-cluster-issuer
+spec:
+  rules:
+  - host: wg-cimsi.atomflare.net
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: wireguard
+            port:
+              name: ui
+  - host: wireguard-cimsi.atomflare.net
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: wireguard
+            port:
+              name: ui 
+  tls:
+  - hosts:
+    - wg-cimsi.atomflare.net
+    - wireguard-cimsi.atomflare.net
+    secretName: atomflare-tls

@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextcloud              
+  namespace: nextcloud          
+  labels:                         
+    app: nextcloud   
+    load: high       
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nextcloud
+      load: high
+  strategy:
+    type: Recreate           
+  template:
+    metadata:
+      labels:
+        app: nextcloud
+        load: high
+    spec:
+      tolerations:
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 20
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 20
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            load: high
+      volumes:
+      - name: nextcloud-data
+        persistentVolumeClaim:
+          claimName: nextcloud-data
+      - name: nextcloud-fpm-tunning
+        configMap:
+          name: nextcloud-fpm-tunning
+      containers:
+      - image: nextcloud:fpm
+        name: nextcloud                    
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /var/www/html
+          name: nextcloud-data
+        - mountPath: /usr/local/etc/php-fpm.d/www.conf
+          subPath: www.conf
+          name: nextcloud-fpm-tunning
+        env:                              
+        - name: TZ
+          value: Europe/Madrid
+        ports:
+         - containerPort: 9000
+           name: fpm
+           protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx             
+  namespace: nextcloud          
+  labels:                         
+    app: nginx             
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  strategy:
+    rollingUpdate:
+      maxSurge: 1                  # The number of pods that can be created above the desired amount
+      maxUnavailable: 1            # The number of pods that can be unavailable during an update
+    type: RollingUpdate            # New pods are added gradually
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      volumes:
+      - name: nextcloud-data
+        persistentVolumeClaim:
+          claimName: nextcloud-data
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+      containers:
+      - image: nginx
+        name: nginx                    
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+          name: nginx-config
+        - mountPath: /var/www/html
+          name: nextcloud-data
+        env:
+        - name: TZ
+          value: Europe/Madrid
+        ports:
+         - containerPort: 80
+           name: web
+           protocol: TCP

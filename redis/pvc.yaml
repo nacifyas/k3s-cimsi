@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nextcloud-cache
+  namespace: redis
+  labels:
+    app: redis-nextcloud
+spec:
+  storageClassName: nfs-client
+  accessModes:
+  - ReadOnlyMany
+  resources:
+    requests:
+      storage: 600Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: stack-data
+  namespace: redis
+  labels:
+    app: redis-stack
+spec:
+  storageClassName: nfs-client
+  accessModes:
+  - ReadOnlyMany
+  resources:
+    requests:
+      storage: 1Gi

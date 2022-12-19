@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-nextcloud
+  namespace: redis         
+  labels:                         
+    app: redis-nextcloud         
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-nextcloud
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: redis-nextcloud
+    spec:
+      tolerations:
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 20
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 20
+      volumes:
+      - name: nextcloud-cache
+        persistentVolumeClaim:
+          claimName: nextcloud-cache
+      - name: redis-nextcloud-conf
+        configMap:
+          name: redis-nextcloud-conf
+      containers:
+      - image: redis
+        name: redis-nextcloud              
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /usr/local/etc/redis/redis.conf
+          subPath: redis.conf
+          name: redis-nextcloud-conf
+        - mountPath: /data
+          name: nextcloud-cache
+        env:
+        - name: TZ
+          value: Europe/Madrid
+        ports:
+         - containerPort: 6379
+           name: nextcloud-cache
+           protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-stack
+  namespace: redis         
+  labels:                         
+    app: redis-stack         
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-stack
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: redis-stack
+    spec:
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: stack-data
+      - name: config
+        configMap:
+          name: redis-stack-conf
+      containers:
+      - image: redis/redis-stack-server
+        name: redis-stack              
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /usr/local/etc/redis/redis.conf
+          subPath: redis.conf
+          name: config
+        - mountPath: /data
+          name: data
+        env:
+        - name: REDIS_ALLOW_REMOTE_CONNECTIONS
+          value: "yes"
+        - name: TZ
+          value: Europe/Madrid
+        ports:
+         - containerPort: 6379
+           name: db
+           protocol: TCP
+           hostPort: 6379

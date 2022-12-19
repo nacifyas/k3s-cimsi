@@ -1,0 +1,128 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pihole          
+  namespace: pihole     
+  labels:                         
+    app: pihole             
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pihole
+  strategy:
+    type: Recreate            # New pods are added gradually
+  template:
+    metadata:
+      labels:
+        app: pihole
+    spec:
+      tolerations:
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 10
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 10
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: service
+                operator: In
+                values:
+                - dns   
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        nodeAffinityPolicy: Honor
+        labelSelector:
+          matchLabels:
+            load: high
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: pihole-config
+      - name: dnsmasq
+        persistentVolumeClaim:
+          claimName: dnsmasq
+      containers:
+      - image: pihole/pihole:latest
+        name: pihole
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /etc/pihole
+          name: config
+        - mountPath: /etc/dnsmasq.d
+          name: dnsmasq
+        env:
+        - name: TZ
+          value: Europe/Madrid
+        securityContext:
+          capabilities:
+            add:
+              - NET_ADMIN
+        ports:
+         - containerPort: 53
+           name: dns-tcp
+           protocol: TCP
+           hostPort: 53
+         - containerPort: 53
+           name: dns-udp
+           protocol: UDP
+           hostPort: 53
+         - containerPort: 80
+           name: dashboard
+           protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unbound          
+  namespace: pihole     
+  labels:                         
+    app: unbound             
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: unbound
+  strategy:
+    type: Recreate            # New pods are added gradually
+  template:
+    metadata:
+      labels:
+        app: unbound
+    spec:
+      volumes:
+      - name: unbound-config
+        configMap:
+          name: unbound-config
+      containers:
+      - image: klutchell/unbound
+        name: unbound
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /etc/unbound/custom.conf.d/pi-hole.conf
+          name: unbound-config
+          subPath: pi-hole.conf
+        env:
+        - name: TZ
+          value: Europe/Madrid
+        securityContext:
+          capabilities:
+            add:
+              - NET_ADMIN
+        ports:
+         - containerPort: 53
+           name: dns-tcp
+           protocol: TCP
+           hostPort: 553
+         - containerPort: 53
+           name: dns-udp
+           protocol: UDP
+           hostPort: 553

@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name:  sql
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres              
+  namespace: sql          
+  labels:                         
+    app: postgres             
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  strategy:
+    type: Recreate           
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      tolerations:
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 20
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 20
+      containers:
+      - image:  postgres:15
+        name:  postgres
+        imagePullPolicy: Always
+          # resources:
+          #   requests:
+          #     cpu: "20m"
+          #     memory: "55M"
+          # livenessProbe:
+          #   httpGet:
+          #     path: /_status/healthz
+          #     port: 5000
+          #   initialDelaySeconds: 90
+          #   timeoutSeconds: 10
+          # readinessProbe:
+          #   httpGet:
+          #     path: /_status/healthz
+          #     port: 5000
+          #   initialDelaySeconds: 30
+          #   timeoutSeconds: 10
+        env:
+        - name:  TZ
+          value:  Europe/Madrid
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
+              optional: false
+        ports:
+        - containerPort:  5432
+          name:  db
+          protocol: TCP
+        volumeMounts:
+        - name: postgres-db
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: postgres-db
+        persistentVolumeClaim:
+          claimName: postgres-db
+      restartPolicy: Always

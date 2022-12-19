@@ -1,0 +1,39 @@
+# apiVersion: v1
+# kind: Namespace
+# metadata:
+#   name: sandbox
+# ---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: selfsigned-cluster-issuer
+spec:
+  selfSigned: {}
+  ca:
+    secretName: selfsigned-atomflare-tls
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: selfsigned-ca
+  # namespace: sandbox
+spec:
+  isCA: true
+  commonName: selfsigned-ca
+  secretName: selfsigned-atomflare-tls
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: selfsigned-cluster-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+# ---
+# apiVersion: cert-manager.io/v1
+# kind: Issuer
+# metadata:
+#   name: self-ca-issuer
+#   namespace: default
+# spec:
+#   ca:
+#     secretName: selfsigned-atomflare-tls

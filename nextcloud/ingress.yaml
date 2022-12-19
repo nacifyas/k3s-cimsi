@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nextcloud-ingress
+  namespace: nextcloud
+  annotations:
+    cert-manager.io/cluster-issuer: acme-cluster-issuer
+spec:
+  rules:
+  - host: cloud-cimsi.atomflare.net
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nextcloud-frontend
+            port:
+              name: web
+  tls:
+  - hosts:
+    - cloud-cimsi.atomflare.net
+    secretName: atomflare-tls

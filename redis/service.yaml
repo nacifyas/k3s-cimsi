@@ -1,0 +1,29 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: redis-nextcloud
+  namespace: redis
+spec: 
+  type: ClusterIP
+  selector:
+    app: redis-nextcloud
+  ports:
+    - name: nextcloud-cache
+      protocol: TCP
+      port: 6379
+      targetPort: nextcloud-cache
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: redis-stack
+  namespace: redis
+spec: 
+  type: ClusterIP
+  selector:
+    app: redis-stack
+  ports:
+    - name: nextcloud-cache
+      protocol: TCP
+      port: 6379
+      targetPort: db

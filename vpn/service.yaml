@@ -1,0 +1,19 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: wireguard
+  namespace: vpn   
+spec: 
+  type: LoadBalancer
+  selector:
+    app: wireguard
+  ports:
+    - name: tunnel
+      protocol: UDP
+      port: 51280
+      targetPort: tunnel
+      nodePort: 30512
+    - name: ui
+      protocol: TCP
+      port: 51281
+      targetPort: dashboard

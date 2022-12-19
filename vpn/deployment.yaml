@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wireguard             
+  namespace: vpn     
+  labels:                         
+    app: wireguard             
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wireguard
+  strategy:
+    type: Recreate            # New pods are added gradually
+  template:
+    metadata:
+      labels:
+        app: wireguard
+    spec:
+      tolerations:
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 30
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 30
+      securityContext:
+        sysctls:
+          - name: net.ipv4.ip_forward
+            value: "1"
+          - name: net.ipv4.conf.all.src_valid_mark
+            value: "1"
+      volumes:
+      - name: wg-config
+        persistentVolumeClaim:
+          claimName: wg-config
+      containers:
+      - image: weejewel/wg-easy
+        name: wireguard
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /etc/wireguard
+          name: wg-config
+        env:
+        - name: TZ
+          value: Europe/Madrid
+        - name: WG_HOST
+          value: "vpn.atomflare.net"
+        - name: WG_PORT
+          value: "51820"
+        - name: WG_DEFAULT_DNS
+          value: "192.168.0.57"
+        - name: PEERDNS
+          value: "192.168.0.57"
+        - name: WG_DEFAULT_ADDRESS
+          value: "10.9.0.x"
+        - name: PASSWORD
+          value: NonTrivialZeros13
+        securityContext:
+          capabilities:
+            add:
+              - NET_ADMIN
+              - SYS_MODULE
+        ports:
+         - containerPort: 51820
+           name: tunnel
+           protocol: UDP
+         - containerPort: 51821
+           name: dashboard
+           protocol: TCP

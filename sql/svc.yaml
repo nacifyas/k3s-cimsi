@@ -1,0 +1,29 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: postgres
+  namespace: sql
+spec:
+  selector:
+    app:  postgres
+  type: NodePort
+  ports:
+  - name:  potgres-db
+    port:  5432
+    targetPort:  db
+    nodePort: 30054
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: postgres-old
+  namespace: sql
+spec:
+  selector:
+    app:  postgres-old
+  type: NodePort
+  ports:
+  - name:  potgres-db
+    port:  5432
+    targetPort:  db
+    nodePort: 30055

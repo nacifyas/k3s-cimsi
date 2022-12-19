@@ -1,0 +1,41 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: pihole
+  namespace: pihole
+spec: 
+  selector:
+    app: pihole
+  ports:
+    - name: dashboard
+      port: 81
+      protocol: TCP
+      targetPort: dashboard
+    - name: dns-tcp
+      port: 53
+      protocol: TCP
+      targetPort: dns-tcp
+    - name: dns-udp
+      port: 53
+      protocol: UDP
+      targetPort: dns-udp
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: unbound
+  namespace: pihole
+spec: 
+  type: ClusterIP
+  clusterIP: 10.43.0.53
+  selector:
+    app: unbound
+  ports:
+    - name: dns-tcp
+      port: 53
+      protocol: TCP
+      targetPort: dns-tcp
+    - name: dns-udp
+      port: 53
+      protocol: UDP
+      targetPort: dns-udp
