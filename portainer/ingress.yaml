@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: portainer
+  namespace: portainer
+  annotations:
+    cert-manager.io/cluster-issuer: acme-cluster-issuer
+spec:
+  rules:
+  - host: portainer-cimsi.atomflare.net
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: pihole
+            port:
+              name: dashboard
+  tls:
+  - hosts:
+    - portainer-cimsi.atomflare.net
+    secretName: atomflare-tls
