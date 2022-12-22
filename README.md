@@ -4,10 +4,10 @@ Titulación, Ingeniería Informática Tecnologías Informáticas.
 
 ### Endpoints
 Acceso a las distintas interfaces de la infraestructura de Atomflare 
-- https://wireguard-cimsi.atomflare.net
-- https://cloud-cimsi.atomflare.net
-- https://portainer-cimsi.atomflare.net
-- https://pihole-cimsi.atomflare.net
+- VPN Dashboard: https://wireguard-cimsi.atomflare.net
+- Nextcloud: https://cloud-cimsi.atomflare.net
+- Portainer: https://portainer-cimsi.atomflare.net
+- Pihole Dashboard: https://pihole-cimsi.atomflare.net
 
 ### Servicios
 ## [Nextcloud](https://cloud-cimsi.atomflare.net)
@@ -21,4 +21,5 @@ Nextcloud (FPM) en Atomflare se compone de:
 - Una base de datos SQL. En concreto se desplega Postgresql.
 - Una base de datos no relacional, como caché. En concreto Redis. Esta no fue desplegada en este ejemplo, por simplicidad del sistema y al ser característica de sistemas con alto volumen de Lectura-Escritura. No obstante, en la versión original de Nextcloud (https://cloud.atomflare.net) al ser usada por usuarios reales, sí viene con Redis.
 
+Los manifiestos de Nextcloud para kubernetes se componen de despliegue varias replicas de su frontend, con Nginx, y una sola replica (o un stateful-set) para el núcleo de Nextcloud-fpm. Los demás servicios como la base de datos SQL fueron desplegados de forma independiente, en su propio namespace.
 
