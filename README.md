@@ -86,3 +86,14 @@ Además, nos permite hacer desplegues, elminar o crear recursos con facilidad y 
 
 ## Distribución de escalabilidad
 Destaca mencionar que la infraestructura fue creada teniendo en mente, su escalabilidad. En concreto, escalado horizontal, añadiendo nuevos nodos al sistema. Para tal caso, es conveniente que al integrar nuevos nodos, éstos distribuyan la carga de los pods en ejecución.
+
+Para ello, se ha ofrecido una heurística basada en etiquetas en los manifiestos. Por experiencia, se sabe que ciertos pods, como Nextcloud, consumen muchos recursos. Por ello, se le ha colocado la etiqueta `load: high` a los pods que más recursos consumen. Teniendo estos pods identificados, se ha implementado una política de ["Pod Topology Spread"](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/)
+```yaml
+topologySpreadConstraints:
+- maxSkew: 1
+  topologyKey: kubernetes.io/hostname
+  whenUnsatisfiable: ScheduleAnyway
+  labelSelector:
+    matchLabels:
+      load: high
+```
