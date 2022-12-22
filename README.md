@@ -4,9 +4,9 @@ Titulación, Ingeniería Informática Tecnologías Informáticas.
 
 ### Endpoints
 Acceso a las distintas interfaces de la infraestructura de Atomflare 
-- wg-cimsi.atomflare.net
-- cloud-cimsi.atomflare.net
-- portainer-cimsi.atomflare.net
-- pihole-cimsi.atomflare.net
+- https://wireguard-cimsi.atomflare.net
+- https://cloud-cimsi.atomflare.net
+- https://portainer-cimsi.atomflare.net
+- https://pihole-cimsi.atomflare.net
 
 ### Servicios
