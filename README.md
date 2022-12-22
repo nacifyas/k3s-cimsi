@@ -7,7 +7,7 @@ Acceso a las distintas interfaces de la infraestructura de Atomflare
 - VPN Dashboard: https://wireguard-cimsi.atomflare.net
 - Nextcloud: https://cloud-cimsi.atomflare.net
 - Portainer: https://portainer-cimsi.atomflare.net
-- Pihole Dashboard: https://pihole-cimsi.atomflare.net
+- Pihole Dashboard: https://pihole-cimsi.atomflare.net/admin
 
 # Servicios
 ## [Nextcloud](https://cloud-cimsi.atomflare.net)
@@ -30,19 +30,19 @@ usuario: atomflare
 contraseña: cimsi2022
 ```
 
-##[VPN](wg-cimsi.atomflare.net)
+## [VPN](https://wg-cimsi.atomflare.net)
 En Atomflare se usa la VPN para que sea la única forma de acceder al protocolo SSH.
 En la máquina actual de Digital Ocean, se ha cambiado el puerto por defecto de SSH, y además, se ha restringido tal tráfico, a que sea exclusivamente acceptado por conexiones provenientes de la VPN.
 
 Entre las distintas opciones de VPN, se ha optado por Wireguard. Al ser un proyecto moderno, con lo que cuenta con los estándares de IP-Sec más actualizados, y es muy ligero para la máquina, debido a que el tráfico pr VPN será el de los administradores únicamente.
 
-El [enlace] lleva a la interfaz gráfica para facilitar la gestión de usuario con acceso a la VPN. Las credenciales de acceso son:
+El [enlace](https://wg-cimsi.atomflare.net) lleva a la interfaz gráfica para facilitar la gestión de usuario con acceso a la VPN. Las credenciales de acceso son:
 ```
 https://wg-cimsi.atomflare.net
 contraseña: cimsi2022
 ```
 
-##[Pihole](https://pihole-atomflare.net)
+## [Pihole](https://pihole-atomflare.net/admin)
 Pihole es el DNS de la organización. El sistema operativo que se ha escogido en la máquina es [Ubunutu Server 22.04 LTS](https://releases.ubuntu.com/22.04/) y éste, entre otros sistemas operativos Linux, vienen con un proceso que resuelve peticiones DNS internas. Este es [systemd-resolved](https://wiki.archlinux.org/title/systemd-resolved).
 
 Se ha procedido a parar y descativar este servicio, porque tiene ocupado el puerto 53 de la máquina imposibilitando usar puerto para otro servicio DNS.
