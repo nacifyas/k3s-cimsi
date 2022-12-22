@@ -1,4 +1,4 @@
-# Atomflare
+# Atomflare 2 (CIMSI)
 Repositorio para los manifiestos del trabajo de investigación de la asignatura CIMSI de la Universidad de Sevilla. 
 Titulación, Ingeniería Informática Tecnologías Informáticas.
 
