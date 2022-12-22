@@ -124,3 +124,6 @@ Finalmente, todos lo manfiestos de los Ingress, usando a Traefike como IngressCo
 # Futuras mejoras
 - [ ] Implementar un sistema de monotorización distribuido.
 - [ ] Automatizar la preparación del sistema operativo con Ansible para futuros nodos.
+- [ ] Crear una fase de "Staging Certificates", con Self Signed Certificates, para entornos de testeo.
+- [ ] Implementar Middleware para tráfico con cabeceras concretas para Traefik.
+- [ ] Migrar la persistencia de datos a un almacenamiento en la nube distribuido, como [AWS S3](https://aws.amazon.com/s3/)
