@@ -61,3 +61,10 @@ Pihole es un [DNS Sinkhole](https://en.wikipedia.org/wiki/DNS_sinkhole) sin lleg
 Pihole también, puede servir como un pequeño DNS local.
 
 Más información sobre sus funcionalidades figuran en la [documentación oficial](https://docs.pi-hole.net/).
+
+Accediendo a la dashboard, la clave es:
+```
+https://pihole-cimsi.atomflare.net/admin
+contraseña: cimmsi2022
+```
+Pihole permite obersvar, gestionar y monotorizar el todo el tráfico DNS que se realiza en Atomflare. Pudiendo selectivamente bloquear ciertos dominios y ofreciendo más control que `systemd-resolved`.
