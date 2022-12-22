@@ -68,3 +68,5 @@ https://pihole-cimsi.atomflare.net/admin
 contraseña: cimmsi2022
 ```
 Pihole permite obersvar, gestionar y monotorizar el todo el tráfico DNS que se realiza en Atomflare. Pudiendo selectivamente bloquear ciertos dominios y ofreciendo más control que `systemd-resolved`.
+
+Para el despliegue de Pihole se ha tenido en cuenta la privacidad y la seguridad del sistema. Por ello, el tráfico DNS está limitado por firewall solo para el acceso local (vpn y localhost). Y como upstream DNS, se ha desplegado [Unbound](https://www.nlnetlabs.nl/projects/unbound/about/) un servicio DNS autónomo que accede directamente a los servidores autoritativos, sin la necesidad de exponer el tráfico a un proveedor intermediario como Google (`8.8.8.8` y `8.8.4.4`) o Cloudflare (`1.1.1.1` y `1.0.0.1`).
