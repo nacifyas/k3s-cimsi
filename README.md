@@ -1,15 +1,15 @@
-### Atomflare
+# Atomflare
 Repositorio para los manifiestos del trabajo de investigación de la asignatura CIMSI de la Universidad de Sevilla. 
 Titulación, Ingeniería Informática Tecnologías Informáticas.
 
-### Endpoints
+# Endpoints
 Acceso a las distintas interfaces de la infraestructura de Atomflare 
 - VPN Dashboard: https://wireguard-cimsi.atomflare.net
 - Nextcloud: https://cloud-cimsi.atomflare.net
 - Portainer: https://portainer-cimsi.atomflare.net
 - Pihole Dashboard: https://pihole-cimsi.atomflare.net
 
-### Servicios
+# Servicios
 ## [Nextcloud](https://cloud-cimsi.atomflare.net)
 Nextcloud es un servicio de cloud, que ofrece diversas aplicaciones de almacenamiento en la nube, así como aplicaciones colaborativas. Es muy parecido a servicios propietarios como [OneDrive](https://www.microsoft.com/en-us/microsoft-365/onedrive/online-cloud-storage), [Dropbox](https://www.dropbox.com/) o [Google Drive](https://www.google.com/drive/).
 
@@ -23,3 +23,12 @@ Nextcloud (FPM) en Atomflare se compone de:
 
 Los manifiestos de Nextcloud para kubernetes se componen de despliegue varias replicas de su frontend, con Nginx, y una sola replica (o un stateful-set) para el núcleo de Nextcloud-fpm. Los demás servicios como la base de datos SQL fueron desplegados de forma independiente, en su propio namespace.
 
+Para la versión de prueba de cimsi, las credenciales de acceso son:
+```
+https://cloud-cimsi.atomflare.net
+usuario: atomflare
+contraseña: cimsi2022
+```
+
+[VPN](wg-cimsi.atomflare.net)
+En Atomflare se usa la VPN para que sea la única forma de acceder al protocolo SSH.
