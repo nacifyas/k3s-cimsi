@@ -63,7 +63,7 @@ Pihole también, puede servir como un pequeño DNS local.
 Más información sobre sus funcionalidades figuran en la [documentación oficial](https://docs.pi-hole.net/).
 
 Accediendo a la dashboard, la clave es:
-```
+```conf
 https://pihole-cimsi.atomflare.net/admin
 contraseña: cimmsi2022
 ```
