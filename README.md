@@ -42,7 +42,7 @@ https://wg-cimsi.atomflare.net
 contraseña: cimsi2022
 ```
 
-## [Pihole](https://pihole-atomflare.net/admin)
+## [Pihole](https://pihole-cimsi.atomflare.net/admin)
 Pihole es el DNS de la organización. El sistema operativo que se ha escogido en la máquina es [Ubunutu Server 22.04 LTS](https://releases.ubuntu.com/22.04/) y éste, entre otros sistemas operativos Linux, vienen con un proceso que resuelve peticiones DNS internas. Este es [systemd-resolved](https://wiki.archlinux.org/title/systemd-resolved).
 
 Se ha procedido a parar y descativar este servicio, porque tiene ocupado el puerto 53 de la máquina imposibilitando usar puerto para otro servicio DNS.
