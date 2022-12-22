@@ -120,3 +120,7 @@ Cert-Manager funciona por las siguientes etapas:
 2. Conecta con el DNS para validar el dominio que se va a certificar. (En este caso es Cloudflare)
 3. Crea un Challenge que es validado por una autoridad certificadora como [Let's Encrypt/ACME](https://letsencrypt.org/docs/client-options/)
 Finalmente, todos lo manfiestos de los Ingress, usando a Traefike como IngressController, usand el certificado para encriptar el tráfico.
+
+# Futuras mejoras
+- [ ] Implementar un sistema de monotorización distribuido.
+- [ ] Automatizar la preparación del sistema operativo con Ansible para futuros nodos.
