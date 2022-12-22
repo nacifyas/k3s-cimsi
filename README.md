@@ -82,3 +82,7 @@ Para empezar, Portainer ofrece control de usuarios con roles, con lo que se pued
 
 Además, nos permite hacer desplegues, elminar o crear recursos con facilidad y flexibilidad. Cuenta con un editor integrado online, con corrector de sintaxis, para poner los manifiestos desde la interfaz. Pero lo más brillante, es que nos permite usar la técnica Gitops con facilidad. Así podremos tener un control de versiones de los manifiestos, y poder desplegarlos de forma mucho más organizada y automática.
 
+# Otros Aspectos
+
+## Distribución de escalabilidad
+Destaca mencionar que la infraestructura fue creada teniendo en mente, su escalabilidad. En concreto, escalado horizontal, añadiendo nuevos nodos al sistema. Para tal caso, es conveniente que al integrar nuevos nodos, éstos distribuyan la carga de los pods en ejecución.
