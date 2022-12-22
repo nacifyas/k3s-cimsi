@@ -97,3 +97,4 @@ topologySpreadConstraints:
     matchLabels:
       load: high
 ```
+Aquellas aplicaciones que tengan esta configuración en su manifiesto, van a hacer que el [Scheduler](https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/) minimice el número de pods con la etiqueta `load:high` en el mismo nodo, guíando así a la distribución de pods de forma equitativa por nodos.
