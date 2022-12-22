@@ -99,7 +99,7 @@ topologySpreadConstraints:
 ```
 Aquellas aplicaciones que tengan esta configuración en su manifiesto, van a hacer que el [Scheduler](https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/) minimice el número de pods con la etiqueta `load:high` en el mismo nodo, guíando así a la distribución de pods de forma equitativa por los nodos.
 
-## Recuperación de servicios
+## Recuperación de servicios (Disponibilidad)
 Al menos en la distribución [k3s](https://docs.k3s.io/), si cae un nodo con pods en él, este espera durante 300 segundos hasta comenzar una evicción de los pods. Así para los pods más críticos, se ha establecido una política que reduce ese tiempo significativamente hasta tan solo 20 segudos (como para el caso de VPN, podría suponer una interumpción en el mantenimiento realizado por un administrador)
 ```yaml
 tolerations:
@@ -112,3 +112,6 @@ tolerations:
   effect: "NoExecute"
   tolerationSeconds: 20
 ```
+
+## SSL-TLS/CA
+Todos los servicios están expuestos a Intert usando encriptación por HTTPS con certificados TLS.
