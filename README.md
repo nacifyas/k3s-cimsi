@@ -115,3 +115,8 @@ tolerations:
 
 ## SSL-TLS/CA
 Todos los servicios están expuestos a Intert usando `HTTPS` con certificados TLS. Estos están gestionados por [Cert-Manager](https://cert-manager.io/docs/) que es un producto pensado para entornos de kubernetes, que realiza la gestión de crear, validar y renovar certificados TLS para los correspondientes servicios.
+Cert-Manager funciona por las siguientes etapas:
+1. Hace la solicitud de un certificado TLS para un dominio creando un `secret` en el namespace correspondiente.
+2. Conecta con el DNS para validar el dominio que se va a certificar. (En este caso es Cloudflare)
+3. Crea un Challenge que es validado por una autoridad certificadora como [Let's Encrypt/ACME](https://letsencrypt.org/docs/client-options/)
+Finalmente, todos lo manfiestos de los Ingress, usando a Traefike como IngressController, usand el certificado para encriptar el tráfico.
