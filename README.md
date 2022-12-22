@@ -73,3 +73,12 @@ Para el despliegue de Pihole se ha tenido en cuenta la privacidad y la seguridad
 
 En caso de que Pihole no funcione, o haga falta mantenimiento, no se pierde DNS del sistema. Ya que según se ah configurado en el `/etc/resolv.conf`, se recurrirá automáticamente a otros DNS en caso de emergencia.
 
+## [Portainer](https://portainer-cimsi.atomflare.net)
+Portainer es una interfaz para entornos de contenerización. Originlmente fue diseñado para Docker, y en sus versiones recientes, incorpora ventajas para entornos de Kuberntes.
+
+Es una interfaz que ofrece una variedad de ventajas, y que se usan tanto en Atomflare real, como en este trabajo de investigación.
+
+Para empezar, Portainer ofrece control de usuarios con roles, con lo que se puede distribuir la gestión y el mantenimiento del sistema, sin ofrece credenciales SSH ni túneles VPN, permitiendo el acceso regulado desde la UI por (casi) cualquier navegador web.
+
+Además, nos permite hacer desplegues, elminar o crear recursos con facilidad y flexibilidad. Cuenta con un editor integrado online, con corrector de sintaxis, para poner los manifiestos desde la interfaz. Pero lo más brillante, es que nos permite usar la técnica Gitops con facilidad. Así podremos tener un control de versiones de los manifiestos, y poder desplegarlos de forma mucho más organizada y automática.
+
