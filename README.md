@@ -114,4 +114,4 @@ tolerations:
 ```
 
 ## SSL-TLS/CA
-Todos los servicios están expuestos a Intert usando encriptación por HTTPS con certificados TLS.
+Todos los servicios están expuestos a Intert usando `HTTPS` con certificados TLS. Estos están gestionados por [Cert-Manager](https://cert-manager.io/docs/) que es un producto pensado para entornos de kubernetes, que realiza la gestión de crear, validar y renovar certificados TLS para los correspondientes servicios.
