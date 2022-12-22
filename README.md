@@ -54,3 +54,10 @@ nameserver 1.1.1.1
 nameserver 1.0.0.1
 ```
 Esto le indica a la máquina que preferentemente siempre recurra al DNS 127.0.0.1 en el puerto 53, donde Pihole estará escuchando, para resolver sus peticiones DNS. Si no funciona, que recurra como backup a `1.1.1.1` de Cloudflare.
+Se pueden añadir tantos servidores backup como se desee.
+
+Pihole es un [DNS Sinkhole](https://en.wikipedia.org/wiki/DNS_sinkhole) sin llegar a ser un DNS como tal. Porque más bien, sería como un DNS Proxy, debido a que Pihole en sí, no puede resolver nombres de dominio, sino, pasa la petición a otro DNS superior (Upstream DNS) con la diferencia, de que se disponer de una interfaz, con la cual se puede decidir, qué nombres resolver y cuales bloquear.
+
+Pihole también, puede servir como un pequeño DNS local.
+
+Más información sobre sus funcionalidades figuran en la [documentación oficial](https://docs.pi-hole.net/).
