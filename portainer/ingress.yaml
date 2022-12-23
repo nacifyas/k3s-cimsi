@@ -14,9 +14,9 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: pihole
+            name: portainer
             port:
-              name: dashboard
+              number: 9000
   tls:
   - hosts:
     - portainer-cimsi.atomflare.net
